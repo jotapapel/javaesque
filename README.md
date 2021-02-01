@@ -49,9 +49,9 @@ There are two ways to create a new metatype, but both methods follow the next st
 When using this method we not only create a new metatype, but we also declare a global variable that contains it. 
 
 ``` lua
-	[enum|interface|class] 'Name' [:modifier 'modifier-var'| :modifier] {
-		[...]
-	}
+[enum|interface|class] 'Name' [:modifier 'modifier-var'| :modifier] {
+	[...]
+}
 ```
 
 #### Second method
@@ -60,28 +60,54 @@ The second method is what I call a _weak_ definition.
 When using this method instead of automatically asigning a global variable to our new metatype, we create a _weak_ reference to it that can be then manually paired with a local variable. **Note that with this method we can't pair the _weak_ metatype to a global variable, for that refer to the first method.**
 
 ``` lua
-	-- correct use
-	local key = [enum|interface|class] (nil) [: modifier 'modifier-var'| : modifier] {
-		[...]
-	}
-	
-	-- non-valid use
-	key = [enum|interface|class] (nil) [: modifier 'modifier-var'| : modifier] {
-		[...]
-	}
+-- correct use
+local key = [enum|interface|class] (nil) [: modifier 'modifier-var'| : modifier] {
+	[...]
+}
+
+-- non-valid use
+key = [enum|interface|class] (nil) [: modifier 'modifier-var'| : modifier] {
+	[...]
+}
 ```
 
 ### 1. Enumerations
-**Enumerations** are a set of defined constants. To use them you simply call the name of the enum followed by the constant variable name `Enum.CONSTANT`.
+**Enumerations** are a set of defined constants. 
 
-They don't have any modifiers.
+They don't have any modifiers, and you can't modify it's contents once declared.
+
+To use them you simply call the name of the enum followed by the constant variable name `Enum.CONSTANT`.
+
 
 ``` lua
-	enum 'Days' {
-		'Monday', 'Tuesday', 'Wenesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'
-	}
-	
-	local Colors = enum (nil) {
-		'Red', 'Green', 'Blue'
-	}
+enum 'Days' {
+	'Monday', 'Tuesday', 'Wenesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'
+}
+
+local Colors = enum (nil) {
+	'Red', 'Green', 'Blue'
+}
 ```
+
+### 2. Interfaces
+**Interfaces** are tables used as a bueprint of variables.
+
+``` lua
+interface 'Stack' {
+	e = {},
+
+	push = function(self, ...)
+	end,
+	
+	pop = function(self, ...)
+	end,
+	
+	peek = function(self, ...)
+	end
+}
+```
+
+You can **_extend* interfaces just as you would extend classes.
+-- You can declare interfaces as STATIC on definition, this means that when implemented,
+-- all variables of the interface will be registered as class variables.
+
