@@ -24,7 +24,6 @@ class 'Shape' : implements 'Drawable' {
 	constructor = function(self, width, height)
 		self.width, self.height = width or self.width, height or self.height
 	end;
-
 	width = 10, height = 10
 }
 
@@ -93,7 +92,7 @@ __Interfaces__ are tables used as a bueprint of variables.
 
 ``` lua
 interface 'Coloreable' {
-	color = Colors.RED,
+	color = 'red',
 	set_color = function(self, color)
 		self.color = color
 	end
@@ -111,9 +110,13 @@ interface 'Drawable' : extends 'Coloreable' {
 ```
 2. __static__: This modifier makes the interface and it's variables _static_, which means that when implemented by a class they will all be treated as _class_ variables (more on this in the Class tab.)
 ```lua
-interface 'CountObjects' : static {
-	draw = function(self)
-		print(self.width, self.height, self.color)
+interface 'Counter' : static {
+	instance_number = 0,
+	get_count = function(self)
+		return self.instance_number
+	end,
+	instance_add = function(self)
+		self.instance_number = self.instance_number + 1
 	end
 }
 ```
