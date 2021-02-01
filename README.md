@@ -38,13 +38,15 @@ shape1:draw() -- 30 30. BLUE
 ## Usage
 Metatypes are the backbone of this library. 
 
-There are three types of *metatypes*: Enumerations, Interfaces and Classes.
+There are three types of *metatypes*: **Enumerations**, **Interfaces** and **Classes**.
 
 ### Creating a new metatype
 There are two ways to create a new metatype.
 
 #### First method
-The first method has four blocks:
+When using the first method we not only create a new metatype, but also a global variable with the name of the newly created metatype that contains it. 
+
+This method has four distintive parts that must be called in the following order:
 1. The **metatype function**: `enum`, `interface` or `class`.
 2. The **name**: A string containing the new metatypes name.
 3. The **modifiers**: Special functions that modify the metatype (each metatype has different modifiers: enumerations have no modifiers, interfaces have two and classes have three).
@@ -59,9 +61,7 @@ The first method has four blocks:
 #### Second method
 The second method is what I call a _weak_ definition. 
 
-When using the first method we not only create a new metatype, but also a global variable with the name of the newly created metatype that contains it. 
-
-When using this method instead we create a _weak_ reference to the metatype that can be manually paired with a local variable.
+When using this method instead of automatically asigning a global variable to our new metatype, we create a _weak_ reference to it that can be manually paired with a local variable.
 
 ``` lua
 	-- correct use
@@ -69,37 +69,26 @@ When using this method instead we create a _weak_ reference to the metatype that
 		[...]
 	}
 	
-	-- incorrect, non-valid use
+	-- non-valid use
 	key = [enum|interface|class] (nil) [: modifier 'modifier-var'| : modifier] {
 		[...]
 	}
 ```
 
-(Note that with this method we can't pair the _weak_ metatype to a global variable, for that refer to the first method)
+(Note that with this method we can't pair the _weak_ metatype to a global variable, for that refer to the first method.)
 
-
+## The metatypes
 ### Enumerations
-There are two ways of declaring a new class.
+**Enumerations** are a set of defined constants. To use them you simply call the name of the enum followed by the constant variable name `Enum.CONSTANT`.
 
-The first method used to create a new class is to call it's function, followed by a string stating the name of the new class and finished with a table containing all the class definitions (more on this later).
-``` lua
-class 'Animal' {
-	[...]
-}
-```
-
-The second method is what I call a _weak_ definition. 
-When using the first method we not only create a new class, but also a global variable with the name of the newly created class that contains it. When using this method instead we create a _weak_ class that can be manually paired with a local variable.
-(Note that with this method we cannot pair the _weak_ class with a global variable, for that refer to the first method)
+They don't have any modifiers.
 
 ``` lua
--- Allowed
-local Structure = class (nil) {
-	[...]
-}
-
--- Forbidden
-Structure = class (nil) {
-	[...]
-}
+	enum 'Days' {
+		'Monday', 'Tuesday', 'Wenesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'
+	}
+	
+	local Colors = enum (nil) {
+		'Red', 'Green', 'Blue'
+	}
 ```
