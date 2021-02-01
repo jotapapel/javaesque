@@ -33,7 +33,7 @@ shape1:set_color(Colors.BLUE)
 shape1:draw() -- 30 30. BLUE
 ```
 
-## Metatypes
+## Usage
 Javaesque has three types of *metatypes*: __Enumerations__, __Interfaces__ and __Classes__.
 
 ### Creating a new metatype
@@ -90,6 +90,8 @@ enum 'Colors' {
 ### 2. Interfaces
 __Interfaces__ are tables used as a bueprint of variables.
 
+Unlike enums you can change the value of the variable of an interface after it's been declared, but you can't add new variables.
+
 ``` lua
 interface 'Coloreable' {
 	color = 'red',
@@ -118,5 +120,67 @@ interface 'Counter' : static {
 	instance_add = function(self)
 		self.instance_number = self.instance_number + 1
 	end
+}
+```
+### Classes
+__Classes__ are object constructors that contain a set of variables that will be passed on to objects.
+```lua
+class 'Shape'  {
+	constructor = function(self, width, height)
+		self.width, self.height = width or self.width, height or self.height
+	end;
+	width = 10, height = 10
+}
+```
+Just like interfaces you can change the value of the declared variables of a class once after it's been created, but you can't add new variables (outside the _constructor_ function, anyway).
+
+The prototype table of a class has three types of variables: 
+
+1. _constructor_: In the table prototype of the class declaration you can add a variable named `constructor`, a special function that is used to initialize objects. You can create new variables for the objects inside the constructor.
+```lua
+class 'Vehicle'  {
+	constructor = function(self, petrol_capacity)
+		self.capacity = petrol_capacity
+	end;
+}
+```
+2. _object variables_: These are regular variables that are defined in the prototype table just like any other variable on a regular table 
+```lua
+class 'House' {
+	walls = 4,
+	construction_material = 'concrete'
+}
+```
+3. _static or class variables_: There veariables are defined in the prototype table using brackets and a special _static_ keyword `[static.key] = value`.
+```lua
+class 'Animal' {
+	[static.specimens] = 0,
+	[static.add_specimen] = function(self)
+		self.specimens = self.specimens + 1
+	end
+}
+```
+Classes have three modifiers: 
+
+1. __extends__: This modifier allows you to make one class inherit the variables (interfaces and `constructor` function) of another class.
+```lua
+class 'Fish' : extends 'Animal' {
+	moves_in_shoals = true,
+	number_of_fins = 3
+}
+```
+2. __implements__: This modifier allows you to implement interfaces _aka_ assign the variables of an interface to a class.
+```lua
+class 'Shape' : implements 'Drawable' {
+	constructor = function(self, width, height)
+		self.width, self.height = width or self.width, height or self.height
+	end;
+	width = 10, height = 10
+}
+```
+3. __final__: This modifier makes the class _final_, which means that it can't be extended by other classes.
+```lua
+class 'Bear' : final {
+	eats_fish = true
 }
 ```
