@@ -49,7 +49,7 @@ When using this method we not only create a new metatype, but we also declare a 
 
 ``` lua
 -- all parenthesis are optional
-[enum|interface|class]('Name')[:modifier-with-arguments('modifier-var')|:modifier-without-argument]({
+[enum|interface|class]('Name')[:modifier_with_arguments('modifier-var1[, modifier-var2]')|modifier_without_argument]({
 	[...]
 })
 ```
