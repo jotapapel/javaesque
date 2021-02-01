@@ -1,2 +1,2 @@
-# javaesque-lua
-Lua Library that adds Java-like functionalities
+# Javaesque for Lua
+Library that adds Java-like functionalities to Lua.
