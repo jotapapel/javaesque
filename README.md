@@ -49,9 +49,9 @@ There are two ways to create a new metatype, but both methods follow the next st
 When using this method we not only create a new metatype, but we also declare a global variable that contains it. 
 
 ``` lua
-[enum|interface|class] 'Name' [:modifier 'modifier-var'| :modifier] {
+[enum|interface|class]('Name')[:modifier('modifier-var')|:modifier]({
 	[...]
-}
+})
 ```
 
 #### Second method
@@ -82,12 +82,8 @@ To use them you simply call the name of the enum followed by the constant variab
 
 
 ``` lua
-enum 'Days' {
-	'Monday', 'Tuesday', 'Wenesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'
-}
-
-local Colors = enum (nil) {
-	'Red', 'Green', 'Blue'
+enum 'Colors' {
+	'RED', 'GREEN', 'BLUE'
 }
 ```
 
@@ -95,34 +91,30 @@ local Colors = enum (nil) {
 __Interfaces__ are tables used as a bueprint of variables.
 
 ``` lua
-interface 'Stack' {
-  e = {}, 
-  
-  push = function(self, ...)
-    local args = {...}
-    for _, v in ipairs(args) do
-      table.insert(self.e, v)
-    end
-  end,
-  
-  pop = function(self, number)
-    local number, e = number or 1, {}
-    for i = 1, number do
-      local n = #self.e
-      if (n > 0) then
-        table.insert(e, self.e[n])
-        table.remove(self.e)
-      end
-    end
-    return unpack(e)
-  end,
-  
-  peek = function(self) return self.e[#self.e] end
+interface 'Coloreable' {
+	color = Colors.RED,
+	set_color = function(self, color)
+		self.color = color
+	end
 }
 ```
 They have two modifiers: 
 
 1. __extends__: This modifier allows you to make one interface inherit the variables of another.
+```lua
+interface 'Drawable' : extends 'Coloreable' {
+	draw = function(self)
+		print(self.width, self.height, self.color)
+	end
+}
+```
 2. __static__: This modifier makes the interface and it's variables _static_, which means that when implemented by a class they will all be treated as _class_ variables (more on this in the Class tab.)
+```lua
+interface 'CountObjects' : static {
+	draw = function(self)
+		print(self.width, self.height, self.color)
+	end
+}
+``
 
 
