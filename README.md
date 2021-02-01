@@ -132,9 +132,8 @@ class 'Shape'  {
 	width = 10, height = 10
 }
 ```
-Just like interfaces you can change the value of the declared variables of a class once after it's been created, but you can't add new variables (outside the _constructor_ function, anyway).
 
-The prototype table of a class has three types of variables: 
+The prototype table of a class has three kind of variables: 
 
 1. _constructor_: In the table prototype of the class declaration you can add a variable named `constructor`, a special function that is used to initialize objects. You can create new variables for the objects inside the constructor.
 ```lua
@@ -144,14 +143,14 @@ class 'Vehicle'  {
 	end;
 }
 ```
-2. _object variables_: These are regular variables that are defined in the prototype table just like any other variable on a regular table 
+2. _object_ variable : These are variables that will be passed on to class objects. They are defined in the prototype table just like any other variable on a regular table.
 ```lua
 class 'House' {
 	walls = 4,
 	construction_material = 'concrete'
 }
 ```
-3. _static or class variables_: There veariables are defined in the prototype table using brackets and a special _static_ keyword `[static.key] = value`.
+3. _static or class variables_: These variables will be passed on to the class itself. They are defined in the prototype table using brackets and a special _static_ keyword `[static.key] = value`.
 ```lua
 class 'Animal' {
 	[static.specimens] = 0,
@@ -160,16 +159,18 @@ class 'Animal' {
 	end
 }
 ```
+Just like with interfaces you can change the value of both _object_ and _class_ variables but only after they have been declared. You can't add new variables outside the prototype table (and outside the _constructor_ function, anyway).
+
 Classes have three modifiers: 
 
-1. __extends__: This modifier allows you to make one class inherit the variables (interfaces and `constructor` function) of another class.
+1. __extends__: This modifier allows you to make one class inherit the variables (interfaces and `constructor` function) of another class. The only argument this modifer accepts is the name of the class you want to extend as a string (this string value can point to a global or local variable containing a class).
 ```lua
 class 'Fish' : extends 'Animal' {
 	moves_in_shoals = true,
 	number_of_fins = 3
 }
 ```
-2. __implements__: This modifier allows you to implement interfaces _aka_ assign the variables of an interface to a class.
+2. __implements__: This modifier allows you to implement interfaces _aka_ assign the variables of an interface to a class. The only argument this modifier accepts is the name or names of the interfaces you want to implement. If you want to implement more than one interface simply separate it's names by a comma `implements 'Inteface1 [, Interface2]'` (The names of the interfaces inside the string can point to global or local variables contaning an interface).
 ```lua
 class 'Shape' : implements 'Drawable' {
 	constructor = function(self, width, height)
@@ -178,7 +179,7 @@ class 'Shape' : implements 'Drawable' {
 	width = 10, height = 10
 }
 ```
-3. __final__: This modifier makes the class _final_, which means that it can't be extended by other classes.
+3. __final__: This modifier makes the class _final_, which means that it can't be extended by other classes. This modifier accepts no argument, and thus has to be called last.
 ```lua
 class 'Bear' : final {
 	eats_fish = true
