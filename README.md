@@ -42,13 +42,14 @@ There are two ways to create a new metatype, but both methods follow the next st
 
 1. The __metatype function__: `enum`, `interface` or `class`.
 2. The __name__: A string containing the new metatypes name.
-3. The __modifiers__: Special functions that modify the metatype (each metatype has different modifiers: enumerations have no modifiers, interfaces have two and classes have three).
+3. The __modifiers__: Special functions that modify the metatype (each metatype has different modifiers: enumerations have no modifiers, interfaces have two and classes have three). Modifiers that accept arguments are called before those who don't.
 4. The __prototype table__: A table contaning the prototype of the metatype.
 
 #### First method
 When using this method we not only create a new metatype, but we also declare a global variable that contains it. 
 
 ``` lua
+-- all parenthesis are optional
 [enum|interface|class]('Name')[:modifier('modifier-var')|:modifier]({
 	[...]
 })
@@ -115,6 +116,4 @@ interface 'CountObjects' : static {
 		print(self.width, self.height, self.color)
 	end
 }
-``
-
-
+```
