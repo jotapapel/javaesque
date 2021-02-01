@@ -94,16 +94,28 @@ local Colors = enum (nil) {
 
 ``` lua
 interface 'Stack' {
-	e = {},
-
-	push = function(self, ...)
-	end,
-	
-	pop = function(self, ...)
-	end,
-	
-	peek = function(self, ...)
-	end
+  e = {}, 
+  
+  push = function(self, ...)
+    local args = {...}
+    for _, v in ipairs(args) do
+      table.insert(self.e, v)
+    end
+  end,
+  
+  pop = function(self, number)
+    local number, e = number or 1, {}
+    for i = 1, number do
+      local n = #self.e
+      if (n > 0) then
+        table.insert(e, self.e[n])
+        table.remove(self.e)
+      end
+    end
+    return unpack(e)
+  end,
+  
+  peek = function(self) return self.e[#self.e] end
 }
 ```
 
