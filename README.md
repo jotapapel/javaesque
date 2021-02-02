@@ -36,6 +36,10 @@ shape1:draw() -- 30 30. BLUE
 ## Usage
 Javaesque has three types of *metatypes*: __Enumerations__, __Interfaces__ and __Classes__.
 
+It also has three functions: __switch__, __import__ and __catch_error__.
+
+And one keyword: __static__.
+
 ### Creating a new metatype
 There are two ways to create a new metatype, but both methods follow the next structure.
 
@@ -49,7 +53,7 @@ When using this method we not only create a new metatype, but we also declare a 
 
 ``` lua
 -- all parenthesis are optional
-[enum|interface|class]('Name')[:modifier_with_arguments('modifier-var1[, modifier-var2]')|modifier_without_argument]({
+[enum|interface|class]('Name')[:modifier_with_arguments('modifier-var1[, modifier-var2]')|:modifier_without_argument]({
 	[...]
 })
 ```
