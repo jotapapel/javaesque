@@ -85,12 +85,12 @@ To use them you simply call the name of the enum followed by the constant variab
 enum 'Colors' {
 	'RED', 'GREEN', 'BLUE'
 }
+
+print(Colors) -- enum: 0x...
 ```
 
 ### 2. Interfaces
 __Interfaces__ are tables used as a bueprint of variables.
-
-Unlike enums you can change the value of the variable of an interface after it's been declared, but you can't add new variables.
 
 ``` lua
 interface 'Coloreable' {
@@ -99,10 +99,17 @@ interface 'Coloreable' {
 		self.color = color
 	end
 }
+
+print(Coloreable) -- interface: 0x....
 ```
+
+Unlike enums you can change the value of the variable of an interface after it's been declared, but you can't add new variables.
+
+#### Modifiers
+
 They have two modifiers: 
 
-1. __extends__: This modifier allows you to make one interface inherit the variables of another.
+1. __extends__: This modifier allows you to make one interface inherit the variables of another. The only argument this modifer accepts is the name (or names) of the interface you want to extend as a string (this string value can point to a global or local variable containing an interface).
 ```lua
 interface 'Drawable' : extends 'Coloreable' {
 	draw = function(self)
@@ -122,8 +129,11 @@ interface 'Counter' : static {
 	end
 }
 ```
+
 ### Classes
+
 __Classes__ are object constructors that contain a set of variables that will be passed on to objects.
+
 ```lua
 class 'Shape'  {
 	constructor = function(self, width, height)
@@ -131,18 +141,24 @@ class 'Shape'  {
 	end;
 	width = 10, height = 10
 }
+
+print(Shape) -- class: 0x...
 ```
-#### Class modifiers
+#### Modifiers
+
 Classes have three modifiers: 
 
 1. __extends__: This modifier allows you to make one class inherit the variables (interfaces and `constructor` function) of another class. The only argument this modifer accepts is the name of the class you want to extend as a string (this string value can point to a global or local variable containing a class).
+
 ```lua
 class 'Fish' : extends 'Animal' {
 	moves_in_shoals = true,
 	number_of_fins = 3
 }
 ```
+
 2. __implements__: This modifier allows you to implement interfaces _aka_ assign the variables of an interface to a class. The only argument this modifier accepts is the name (or names separated by a comma) of the interfaces you want to implement (the names of the interfaces inside the string can point to global or local variables contaning an interface).
+
 ```lua
 class 'Shape' : implements 'Drawable' {
 	constructor = function(self, width, height)
@@ -151,16 +167,20 @@ class 'Shape' : implements 'Drawable' {
 	width = 10, height = 10
 }
 ```
+
 3. __final__: This modifier makes the class _final_, which means that it can't be extended by other classes. This modifier accepts no argument, and thus has to be called last.
 ```lua
 class 'Bear' : final {
 	eats_fish = true
 }
 ```
-#### Class prototype table
+
+#### Prototype Table
+
 The prototype table of a class has three kind of variables: 
 
-1. _constructor_: In the prototype table of the class declaration you can add a variable named `constructor`, a special function that is used to initialize objects. Inside this function you can declare new variables for future objects of the class. It is recommended that the `constructor` variable is placed as the first key on the prototype table.
+1. _constructor_: In the prototype table of the class declaration you can add a variable named `constructor`, a special function that is used to initialize objects. Inside this function you can declare new variables for future objects of the class. The `constructor` function must always have a ´self´ variable as it's first argument, and it's recommended to place it as the first key on the prototype table.
+
 ```lua
 class 'Vehicle'  {
 	constructor = function(self, petrol_capacity)
@@ -168,14 +188,18 @@ class 'Vehicle'  {
 	end;
 }
 ```
+
 2. _object_ variable : These are the variables that will be passed on to class objects. They are defined in the prototype table just like any other variable on a regular table `key = value`.
+
 ```lua
 class 'House' {
 	walls = 4,
 	construction_material = 'concrete'
 }
 ```
-3. _static or class variables_: These variables will be passed on to the class itself. They are defined in the prototype table using brackets and a special _static_ keyword `[static.key] = value`.
+
+3. _static_ or _class_ variables: These variables will be passed on to the class itself. They are defined in the prototype table using brackets and a special _static_ keyword `[static.key] = value`.
+
 ```lua
 class 'Animal' {
 	[static.specimens] = 0,
@@ -184,10 +208,13 @@ class 'Animal' {
 	end
 }
 ```
+
 Just like with interfaces you can change the value of both _object_ and _class_ variables, __only after they have been declared__. You can't add new variables outside the prototype table (and outside the _constructor_ function, anyway).
 
 #### Creating objects
+
 To create a new object from a class you simply call the class name as a function name, followed by the arguments you determined in the `constructor` function.
+
 ```lua
 class 'Vehicle'  {
 	constructor = function(self, petrol_capacity)
@@ -206,4 +233,7 @@ class 'Vehicle'  {
 
 local v1 = Vehicle(100)
 local v2 = Vehicle(200)
+
+print(v1) -- object: 0x...
+print(v2.petrol_capacity) -- 200
 ```
