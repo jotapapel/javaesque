@@ -30,7 +30,7 @@ class 'Shape' : implements 'Drawable' {
 local shape1 = Shape(30, 30)
 shape1:draw() -- 30	30	RED
 shape1:set_color(Colors.BLUE)
-shape1:draw() -- 30 30. BLUE
+shape1:draw() -- 30	30	BLUE
 ```
 
 ## Usage
@@ -154,12 +154,17 @@ print(Shape) -- class: 0x...
 
 To create a new object from a class you simply call the class name as a function name, followed by the arguments you determined in the `constructor` function.
 
+Unlike all _metatypes_ you can assign variables to objects as with any other lua table.
+
 ```lua
 class 'Vehicle'  {}
 
 local v1 = Vehicle()
+v1.color = 'red'
 
 print(v1) -- object: 0x...
+print(v1.id) -- 0x...
+print(v1.color) -- red
 ```
 
 #### Modifiers
@@ -169,10 +174,19 @@ Classes have three modifiers:
 1. __extends__: This modifier allows you to make one class inherit the variables (interfaces and `constructor` function) of another class. The only argument this modifer accepts is the name of the class you want to extend as a string (this string value can point to a global or local variable containing a class).
 
 ```lua
+class 'Animal' {
+	eats_food = true
+}
+
 class 'Fish' : extends 'Animal' {
 	moves_in_shoals = true,
 	number_of_fins = 3
 }
+
+local fish1 = Fish()
+
+print(fish1.eats_food) -- true
+print(fish1.number_of_fins) -- 3
 ```
 
 2. __implements__: This modifier allows you to implement interfaces _aka_ assign the variables of an interface to a class. The only argument this modifier accepts is the name (or names separated by a comma) of the interfaces you want to implement (the names of the interfaces inside the string can point to global or local variables contaning an interface).
@@ -193,7 +207,7 @@ class 'Shape' : implements 'Drawable' {
 }
 
 local shape1 = Shape(55, 55, 'red')
-shape1:draw() -- 55 55  red
+shape1:draw() -- 55	55	red
 ```
 
 3. __final__: This modifier makes the class _final_, which means that it can't be extended by other classes. This modifier accepts no argument, and thus has to be called last.
@@ -203,7 +217,7 @@ class 'Bear' : final {
 }
 
 class 'Horse' : extends 'Bear' {}
--- Error: javaesque.lua:190: Cannot extend class 'Bear', class is final.
+-- Error: Cannot extend class 'Bear', class is final.
 
 ```
 
@@ -211,7 +225,9 @@ class 'Horse' : extends 'Bear' {}
 
 The prototype table of a class has three kind of variables: 
 
-1. _constructor_: In the prototype table of the class declaration you can add a variable named `constructor`, a special function that is used to initialize objects. Unlike other _metatypes_ you can assign new variables to class objects inside this function. The `constructor` function arguments must always start with a ´self´ variable.
+1. _constructor_: In the prototype table of the class declaration you can add a variable named `constructor`, a special function that is used to initialize objects. The `constructor` function arguments must always start with a ´self´ variable.
+
+Unlike other _metatypes_ you can assign new variables to class objects inside this function.
 
 ```lua
 class 'Vehicle'  {
