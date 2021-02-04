@@ -193,6 +193,26 @@ class 'Vehicle'  {
 }
 ```
 
+If you are inside the constructor of a sub class (one that has extended another) you can call the function `super()` inside the new constructor function to call the constructor function of the super class (the one you want to extend from) with the arguments needed.
+
+```lua
+class 'Animal' {
+	contructor = function(self, name)
+		self.name = name
+	end;
+}
+
+class 'Fish' : extends 'Animal' {
+	constructor = function(self, name, color)
+		super(name)
+		self.color = color
+	end;
+	
+	moves_in_shoals = true, 
+	number_of_fins = 3
+}
+```
+
 2. _object_ variable : These are the variables that will be passed on to class objects. They are defined in the prototype table just like any other variable on a regular table `key = value`.
 
 ```lua
