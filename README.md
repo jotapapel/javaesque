@@ -114,13 +114,23 @@ print(Coloreable) -- interface: 0x....
 
 They have two modifiers: 
 
-1. __extends__: This modifier allows you to make one interface inherit the variables of another. The only argument this modifer accepts is the name (or names) of the interface you want to extend as a string (this string value can point to a global or local variable containing an interface).
+1. __extends__: This modifier allows you to make one interface inherit the variables of another. The only argument this modifer accepts is the name (or names separated by a comma) of the interface you want to extend as a string (this string value can point to a global or local variable containing an interface).
 ```lua
+interface 'Coloreable' {
+	color = 'red',
+	set_color = function(self, color)
+		self.color = color
+	end
+}
+
 interface 'Drawable' : extends 'Coloreable' {
 	draw = function(self)
 		print(self.width, self.height, self.color)
 	end
 }
+
+print(Drawable.draw) -- function: 0x...
+print(Drawable.color) -- red
 ```
 2. __static__: This modifier makes the interface and it's variables _static_, which means that when implemented by a class they will all be treated as _class_ variables (more on this in the Class tab.)
 ```lua
@@ -239,7 +249,7 @@ class 'Vehicle'  {
 Vehicle.type_of_engine = 'gas_engine' -- intent to declare a variable outside the prototype metatable
 
 local vehicle1 = Vehicle(100)
-print(vehicle1.petrol_capacity) -- 100
+print(vehicle1.capacity) -- 100
 print(Vehicle.type_of_engine) -- nil
 ```
 
@@ -261,6 +271,11 @@ class 'Fish' : extends 'Animal' {
 	moves_in_shoals = true, 
 	number_of_fins = 3
 }
+
+local fish1 = Fish('tom', 'yellow')
+
+print(fish1.name) -- tom
+print(fish1.color) -- yellow
 ```
 
 2. _object_ variable : These are the variables that will be passed on to class objects. They are defined in the prototype table just like any other variable on a regular table `key = value`.
