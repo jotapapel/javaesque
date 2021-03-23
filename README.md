@@ -1,3 +1,8 @@
+This is the first incarnation of my attempt at creating an object-oriented library for lua and is no longer in development. 
+
+The new version is called ___LuaScript___ and escentially mantains all the functionality of _Javaesque_ but with a twist.
+You can find it [here].
+
 # _Javaesque_
 
 ``` lua
